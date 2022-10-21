@@ -11,8 +11,7 @@ export default function PasswordFlow() {
     <Stack.Navigator>
       <Stack.Screen name="Recovery" options={{ title: 'Recuperação de Senha' }} component={RecoveryPassword} />
       <Stack.Screen name="CodePassword" options={{ title: 'Verificação' }} component={CodePassword} />
-      <Stack.Screen name="NewPassword"
-      options={{ title: 'Recuperação de Senha'}} component={NewPassword} />
+      <Stack.Screen name="NewPassword" options={{ title: 'Recuperação de Senha'}} component={NewPassword} />
     </Stack.Navigator>
   );
 }

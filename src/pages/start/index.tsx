@@ -1,17 +1,12 @@
 
 import React from 'react'
 import { View, StyleSheet, Dimensions, Animated, Image} from 'react-native'
-import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Link, useNavigation } from '@react-navigation/native';
 import { Text} from 'native-base'
-import UIButton from '../../components/UIButton'
 import UILogo from '../../components/UILogo'
-
-import { GetSlides } from '../../service/slides';
-import Loading from '../../components/Loadding';
-import CountryModal from '../../components/CountryModal';
 import { dataStatic } from './data';
 import { LinearGradient } from 'expo-linear-gradient';
+import UIButton from '../../components/UIButton';
 
 const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
@@ -90,7 +85,6 @@ export default function Start() {
             <UIButton 
                 title='Vamos Começar'
                 onPress={() => {navigation.navigate('Register')}}
-                loading={false}
             />
             <View style={styles.redirection}>
                 <Text style={{color: "#454545"}}>Já tem uma conta?</Text>

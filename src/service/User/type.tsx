@@ -6,6 +6,13 @@ export interface ISingIn {
     returnSecureToken: boolean,
   }
 
+  export interface ISingInRemember {
+    email: string,
+    password: string,
+    returnSecureToken: boolean,
+    remember: boolean
+  }
+
 export interface ISingInResponse {
     data: {
       kind: string,

@@ -8,11 +8,12 @@ import { UIHeading } from "../../../components/UIText";
 import CustomInput from "../../../components/input/Input";
 import { Link, useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
-import UIButton from "../../../components/UIButton";
 import { useState } from "react";
 import AnimatedLottieView from "lottie-react-native";
 import { Icon, IconButton } from "native-base";
 import { AntDesign } from '@expo/vector-icons';
+import UIButton from "../../../components/UIButton";
+
 export const initialValues = {
     password:'',
     confirmationPassword:'',
@@ -42,14 +43,8 @@ export default function NewPassword() {
 
         <View style={styles.background}> 
           
-            <LinearGradient
-              colors={['#3D9FE0', '#8834F5']}
-              start={[0, 0]}
-              end={[1, 0]}
-              style={styles.shape}
-            />
               <View style={styles.container}>
-              <UILogo style={{top: -20}}/>
+           
             { sucess ? 
             <View style={{marginTop: 20, justifyContent: "center", alignContent: "center", alignItems: "center"}}>
                 <AnimatedLottieView
@@ -59,12 +54,12 @@ export default function NewPassword() {
                 />
                 <UIHeading color="gray/800">Nova senha cadastrada com sucesso</UIHeading>
                 <View style={{marginTop: 10}}>
-                    <UIButton onPress={() => { navigation.navigate('Login'); } } title="Voltar ao Login" loading={false}/>
+                    <UIButton onPress={() => { navigation.navigate('Login'); } } title="Voltar ao Login"/>
                 </View>
             </View>
              : 
                 <TranslateX from={200} to={0}>
-                <UIHeading style={{marginTop: 30}} size="xSmall" color="violet">Criar nova senha</UIHeading>
+                <UIHeading size="xSmall" color="violet">Criar nova senha</UIHeading>
                 <CustomInput 
                   placeholder='Nova senha' icon="password"
                   onChangeText={handleChange('password')}
@@ -77,7 +72,7 @@ export default function NewPassword() {
                   onBlur={handleBlur('confirmationPassword')}
                   value={values.confirmationPassword}
                 />
-                <UIButton onPress={ ()=> setSucess(!sucess)} title="Criar" loading={false}  /> 
+                <UIButton onPress={ ()=> setSucess(!sucess)} title="Criar" /> 
                 </TranslateX> 
             }</View> 
         </View>
@@ -108,7 +103,7 @@ export default function NewPassword() {
       shadowRadius: 6,
   },
     container: {
-      marginTop: 80,
+      marginTop: 25,
       display: "flex",
       alignItems: "center",
       alignContent: "center",

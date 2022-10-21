@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { Formik } from 'formik';
 
 import {StyleSheet , Text, View, Image, TextInput, Dimensions } from 'react-native';
-import UIButton from '../../components/UIButton';
 import UILogo from '../../components/UILogo';
 import { Link, useNavigation } from '@react-navigation/native';
 import { useTogglePasswordVisibility } from './component/useTogglePasswordVisibility';
@@ -11,34 +10,35 @@ import { Box, Checkbox, Pressable, useToast } from 'native-base';
 import { initialValues, SignupSchema } from './validation';
 import { signInWithPassword } from '../../service/User';
 import { useAuth } from '../../context';
-import { ISingIn } from '../../service/User/type';
+import { ISingIn, ISingInRemember, ISingInResponse } from '../../service/User/type';
 import { AlertStatus } from '../../components/AlertStatus';
 import { useMutation } from '@tanstack/react-query';
 import CustomInput from '../../components/input/Input';
 import { LinearGradient } from 'expo-linear-gradient';
 import { UIHeading } from '../../components/UIText';
 import TranslateX from '../../components/animations/TranslateX';
+import UIButton from '../../components/UIButton';
+import { GetValueForStorage, SaveStorage } from '../../service/storage/storage';
 
 const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
 
 export default function Login() {
   const toast = useToast();
-  const { login, loading } = useAuth();
+  const { login, user } = useAuth();
   const navigation = useNavigation()
-  const [isOpen, SetIsOpen] = useState(true)
-  const [title, setTitle] = useState("")
-  const [status, SetStatus] = useState("error")
-
+  const [isRemember, setIsRemember ] = useState(false)
+  
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={SignupSchema}
       onSubmit={async values => {
-        const temp:ISingIn = {
+        const temp:ISingInRemember = {
           email: values.email,
           password: values.password,
           returnSecureToken: true,
+          remember: isRemember,
         }
         login(temp)
       }}
@@ -54,7 +54,7 @@ export default function Login() {
               style={styles.shape}
             />
             <View style={styles.container}>
-              <UILogo style={{top: -20}}/>
+            <UILogo style={{marginTop: 60, marginBottom: 60}}/>
               <TranslateX from={200} to={0}>
                 <UIHeading size="xSmall" color="violet">Entrar na plataforma</UIHeading>
                 <CustomInput 
@@ -70,14 +70,14 @@ export default function Login() {
                   value={values.password}
                 />
                 <View style={{marginTop: 5}}>
-                  <Checkbox _text={{color: "#8834F5"}} value='' colorScheme="gray" onChange={()=> console.log("change")}>Lembrar-me</Checkbox>
+                  <Checkbox _text={{color: "#8834F5"}} value='' colorScheme="gray" onChange={()=> setIsRemember(!isRemember)}>Lembrar-me</Checkbox>
                 </View>
-                <UIButton onPress={handleSubmit} title="Entrar" loading={loading} />
+                <UIButton onPress={handleSubmit} title="Entrar"/>
                 <Link to={{ screen: 'PasswordFlow' }} style={{color: "#545454" , marginTop: 5, textAlign: "center"}}>Esqueceu sua senha?</Link>
               </TranslateX>
               <View style={styles.redirection}>
               
-              <Link to={{ screen: 'Start' }} style={{color: "#545454" , marginTop: 20}}>Ainda não tem uma conta? Criar</Link>
+              <Link to={{ screen: 'Start' }} style={{color: "#545454", bottom: -190}}>Ainda não tem uma conta? Criar</Link>
             </View>
 
             </View>
@@ -121,7 +121,6 @@ shape: {
   },
   container: {
     display: "flex",
-    justifyContent: "space-evenly",
     alignItems: "center",
     alignContent: "center",
     height: "100%",

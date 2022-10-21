@@ -1,7 +1,7 @@
 import { View, Dimensions, StyleSheet,Text } from "react-native";
 import { LinearGradient } from 'expo-linear-gradient';
 import { Formik } from "formik";
-import React from "react";
+import React, { useState } from "react";
 import UILogo from "../../../components/UILogo";
 import TranslateX from "../../../components/animations/TranslateX";
 import { UIHeading } from "../../../components/UIText";
@@ -9,6 +9,10 @@ import CustomInput from "../../../components/input/Input";
 import { Link, useNavigation } from '@react-navigation/native';
 import * as Yup from 'yup';
 import UIButton from "../../../components/UIButton";
+import { sendEmailCode } from "../../../service/User";
+import { I } from "@expo/html-elements";
+import AnimatedLottieView from "lottie-react-native";
+import SucessFeedback from "../../../components/animations/SucessFeedback";
 
 export const initialValues = {
     email:'',
@@ -22,30 +26,33 @@ const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
 
 export default function RecoveryPassword() {
-    const navigation = useNavigation(); 
+  const [sucess, setSucess] = useState(false)
+  const navigation = useNavigation(); 
   return (
     <Formik
       initialValues={initialValues}
       validationSchema={SignupSchema}
       onSubmit={async values => {
-        
+        const response = await sendEmailCode({email: values.email})
+        if(response.email){
+          setSucess(true)
+        }
       }}
     >
       {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
 
         <View style={styles.background}> 
-          
-            <LinearGradient
-              colors={['#3D9FE0', '#8834F5']}
-              start={[0, 0]}
-              end={[1, 0]}
-              style={styles.shape}
-            />
-           
+          { sucess ? 
+            <View style={{marginTop: 20, justifyContent: "center", alignContent: "center", alignItems: "center"}}>
+                <SucessFeedback/>
+                <UIHeading color="gray/800">E-mail enviado com Sucesso</UIHeading>
+                <View style={{marginTop: 10}}>
+                    <UIButton onPress={() => { navigation.navigate('Login'); } } title="Voltar ao Login"/>
+                </View>
+            </View>
+            :
             <View style={styles.container}>
-              <UILogo style={{top: -60}}/>
               <TranslateX from={200} to={0}>
-                <UIHeading size="xSmall" color="violet">Recuperar senha</UIHeading>
                 <Text style={{maxWidth: "63%", color: "#717171"}}>Código de recuperação de senha será enviado ao seu e-mail para cadastro de nova senha</Text>
                 <CustomInput 
                   placeholder='E-mail' icon="email"
@@ -54,13 +61,14 @@ export default function RecoveryPassword() {
                   value={values.email}
                 />
                 
-                <UIButton onPress={() => navigation.navigate('CodePassword')} title="Entrar" loading={false}  />
+                <UIButton onPress={handleSubmit} title="Enviar"/>
               </TranslateX>
               <View style={styles.redirection}>
-              
-              <Link to={{ screen: 'Start' }} style={{color: "#545454" , marginTop: 20}}>Ainda não tem uma conta? Criar</Link>
+              <Link to={{ screen: 'Start' }} style={{color: "#545454"}}>Ainda não tem uma conta? Criar</Link>
             </View>
+          
             </View>
+            }
         </View>
        
       )}
@@ -102,8 +110,7 @@ shape: {
     display: "flex",
     alignItems: "center",
     alignContent: "center",
-    height: "100%",
-    marginTop: 120,
+    marginTop: 25,
   },
   input: {
     margin: 5,
@@ -129,7 +136,7 @@ shape: {
     top: 18,
   },
   redirection: {
-    marginTop: 20,
+    height: "98%",
     display: "flex",
     justifyContent: "center",
     alignItems: "center",

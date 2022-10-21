@@ -1,10 +1,9 @@
 
-import React from 'react'
+import React, { useState } from 'react'
 import { View, StyleSheet, Dimensions, Animated, Image} from 'react-native'
 import type { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { Link, useNavigation } from '@react-navigation/native';
-import { Checkbox, PresenceTransition, Text} from 'native-base'
-import UIButton from '../../components/UIButton'
+import { Box, Checkbox, PresenceTransition, Text, useToast} from 'native-base'
 import UILogo from '../../components/UILogo'
 import { LinearGradient } from 'expo-linear-gradient';
 import CustomInput from '../../components/input/Input';
@@ -15,39 +14,59 @@ import { useAuth } from '../../context';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
+import { IRegister, ISingUp } from '../../service/User/type';
+import UIButton from '../../components/UIButton';
+import { RegisterUser, singUp } from '../../service/User';
 
 const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
 
 export const initialValues = {
-    name: "",
     email:'',
     password:'',
     confirmationPassword:'',
-
   }
   
 export const SignUpSchema = Yup.object().shape({
-  name: Yup.string().required('Campo obrigatório'),
-  email: Yup.string().email('Invalid email').required('Required'),
-  password: Yup.string().required('Required'),
-  confirmationPassword:  Yup.string().oneOf([Yup.ref('password'), null], 'Senhas diferentes')
+  email: Yup.string().email('Invalid email').required('Campo obrigatório'),
+  password: Yup.string().required('Campo obrigatório'),
+  confirmationPassword:  Yup.string().oneOf([Yup.ref('password'), null], 'Senhas diferentes').required('Campo obrigatório'),
 });
 
 export default function Register () {
+  const { register } = useAuth();
     const navigation = useNavigation();
-    const { register } = useAuth();
     const [position, setPosition] = React.useState(0)
+    const [ validation, setValidation] = useState(false)
     const scrollX = React.useRef(new Animated.Value(0)).current;
-  
+    const toast = useToast();
+    const navigate = useNavigation()
+    
     return (<Formik
       initialValues={initialValues}
       validationSchema={SignUpSchema}
       onSubmit={async values => {
-        const displayName = {displayName: values.name}
-        const resp = register({email: values.email, password: values.password, name: values.name})
-      }}
-    >
+          const response = await singUp({email: values.email,
+          password: values.password,
+          returnSecureToken: true,}).then(() =>{
+            toast.show({
+              placement: "top",
+              render: () => {
+                return <Box bg="success.400" px="2" py="1" rounded="sm" mb={5}>
+                        Sua conta foi criada com sucesso!
+                      </Box>;
+            }})
+        }).catch( (err) => {
+          toast.show({
+                placement: "top",
+                render: () => {
+                  return <Box bg="danger.400" px="2" py="1" rounded="sm" mb={5}>
+                          Erro inesperado, tente mais tarde.
+                        </Box>;
+              }})
+        })
+        navigate.navigate("Login")
+    }}>
       {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
 
     <View style={styles.background}>
@@ -58,7 +77,7 @@ export default function Register () {
       opacity: 1,
       translateY: -580,
       transition: {
-        duration: 1000
+        duration: 800
       }
     }}>
         <LinearGradient
@@ -69,34 +88,39 @@ export default function Register () {
       />
       </PresenceTransition>
         <View style={styles.container}>
-          <UILogo/>
+          <PresenceTransition visible={true} initial={{
+              opacity: 0,
+              translateY: 50
+            }} animate={{
+              opacity: 1,
+              translateY: 0,
+              transition: {
+                duration: 800
+              }
+            }}>
+            <UILogo style={{marginTop: 60, marginBottom: 60}}/>
+          </PresenceTransition>
+
             <TranslateX from={0} to={position}>
               <UIHeading size="xSmall" color="violet">Criar conta</UIHeading>
-              <CustomInput 
-                  onChangeText={handleChange('name')}
-                  onBlur={handleBlur('name')}
-                  value={values.name}
-                  placeholder='Nome completo' icon="user"/>
               <CustomInput 
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
                   value={values.email}
                   placeholder='E-mail' icon='email' />
+                  { errors.email ? <UIHeading color="violet" size="2xSmall">{errors.email}</UIHeading> : null }                  
               <CustomInput
               onChangeText={handleChange('password')}
               onBlur={handleBlur('password')}
               value={values.password}
                placeholder='Senha'  icon='password'/>
+               { errors.password ? <UIHeading color="violet" size="2xSmall">{errors.password}</UIHeading> : null }    
               <CustomInput 
               onChangeText={handleChange('confirmationPassword')}
               onBlur={handleBlur('confirmationPassword')}
               value={values.confirmationPassword} placeholder='Confirme sua senha' icon='password'/>
-              
-              <UIButton 
-                title='Criar'
-                onPress={handleSubmit}
-                loading={false}
-              />
+              { errors.confirmationPassword ? <UIHeading color="violet" size="2xSmall">{errors.confirmationPassword}</UIHeading> : null }         
+              <UIButton onPress={handleSubmit} title='Criar'/>
             </TranslateX>
             
           <View style={styles.redirection}>
@@ -141,7 +165,6 @@ const styles = StyleSheet.create({
     container: {
         display: "flex",
         height: "100%",
-        justifyContent: "space-evenly",
         alignItems: "center",
     },
     redirection: {

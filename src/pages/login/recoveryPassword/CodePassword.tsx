@@ -33,19 +33,10 @@ export default function CodePassword() {
       {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
 
         <View style={styles.background}> 
-          
-            <LinearGradient
-              colors={['#3D9FE0', '#8834F5']}
-              start={[0, 0]}
-              end={[1, 0]}
-              style={styles.shape}
-            />
             <View style={styles.container}>
-            
-              <UILogo style={{top: -20}}/>
-                <View style={{marginTop:80, justifyContent: "center", alignItems: "center"}}>
+                <View style={{justifyContent: "center", alignItems: "center"}}>
                   <TranslateX from={200} to={0}>
-                  <UIHeading size="xSmall" color="violet">Insira o código</UIHeading>
+                    <UIHeading size="2xSmall" color="gray/800" >Insira código que foi enviado ao seu e-mail</UIHeading>
                   <CustomInput 
                     placeholder='Codigo' icon="none"
                     onChangeText={handleChange('code')}
@@ -54,7 +45,7 @@ export default function CodePassword() {
                     keyboardType='numeric'
                     maxLength={5}
                   />
-                  <UIButton onPress={() => navigation.navigate('NewPassword')} title="Entrar" loading={false}  />
+                  <UIButton onPress={() => navigation.navigate('NewPassword')} title="Entrar"/>
                   </TranslateX>
                 </View>
             
@@ -89,7 +80,7 @@ shape: {
     shadowRadius: 6,
 },
   container: {
-    marginTop: 80,
+    marginTop: 25,
     display: "flex",
     alignItems: "center",
     alignContent: "center",

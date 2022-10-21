@@ -1,15 +1,15 @@
 import React, { createContext, useContext, useState } from 'react'
-import { Register, signInWithPassword } from '../service/User'
-import { IRegister, IRegisterResponse, ISingIn, ISingInResponse } from '../service/User/type'
+import { signInWithPassword, singUp } from '../service/User'
+import { IRegister, IRegisterResponse, ISingIn, ISingInRemember, ISingInResponse, ISingUp, ISingUpResponse } from '../service/User/type'
 import { GetValueForStorage, SaveStorage } from '../service/storage/storage';
 import { useNavigation } from '@react-navigation/native';
 import { Box, useToast } from 'native-base';
 
 interface AuthContextData {
   user?: ISingInResponse
-  login: (userInfo :ISingIn) => Promise <ISingInResponse | undefined | null>
+  login: (userInfo :ISingInRemember) => Promise <ISingInResponse | undefined | null>
   logout: () => Promise <void>
-  register: (newUSer: IRegister) => Promise <IRegisterResponse | null>
+  register: (newUSer: IRegister) => Promise <void>
   loading: boolean
 }
 
@@ -26,12 +26,19 @@ export const AuthProvider: React.FC = (props: AuthProviderProps) => {
   const [loading, setLoading] = useState(false)
   const toast = useToast();
 
-  async function login(userInfo: ISingIn ): Promise<ISingInResponse | undefined> {
+  async function login(userInfo: ISingInRemember ): Promise<ISingInResponse | undefined> {
     try{
       setLoading(true)
       const data = await signInWithPassword(userInfo)
       setLoading(false)
+
+      if(!GetValueForStorage("token")){
+        console.log(GetValueForStorage("token"))
+        SaveStorage("token", data.data.idToken)
+      }
+
       setUser(data)
+
     } catch (err){
       toast.show({
         placement: "top",
@@ -50,13 +57,12 @@ export const AuthProvider: React.FC = (props: AuthProviderProps) => {
     return
   }
 
-  async function register ({name, email, password}: IRegister): Promise<IRegisterResponse | null> {
+  async function register ({email, password, returnSecureToken}: ISingUp): Promise<ISingUpResponse | null> {
     const navigate = useNavigation()
-    console.log("aqui")
     try{
       setLoading(true)
-      const response = await Register({name: name, email: email, password: password})
-    console.log(response)
+      
+      const response = await singUp({email: email, password: password, returnSecureToken: returnSecureToken})
 
       toast.show({
         placement: "top",
@@ -67,7 +73,7 @@ export const AuthProvider: React.FC = (props: AuthProviderProps) => {
       }})
       setLoading(false)
       navigate.navigate("Login")
-      return response
+      
 
     }catch(err){
       toast.show({
