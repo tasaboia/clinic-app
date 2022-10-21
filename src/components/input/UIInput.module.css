@@ -1,0 +1,43 @@
+.input {
+    background-color: white;
+    margin-left: .5rem;
+    color: rgb(124, 124, 124);
+}
+
+::placeholder {
+    color: #ccc;
+  }
+
+.input:hover {
+    border: none;
+}
+
+.input:focus {
+    border: none;
+    outline: none;
+}
+
+.icon {
+    color: #ccc;
+}
+
+
+
+.input__container {
+    display: flex;
+    align-items: baseline;
+    background-color: white;
+    
+}
+
+.input__container:hover {
+    border: 1 solid ;
+    border-radius: 60;
+    outline: auto;
+    outline-color: #8834F5;
+}
+
+.error {
+    outline: auto;
+    outline-color: red;
+}
