@@ -22,7 +22,7 @@ export default function UIButton({title, onPress, loading = false, error = false
       elevation: 3,
       backgroundColor: '#8834F5',
       marginTop: 20,
-      marginHorizontal:10,
+      alignSelf: "center",
       shadowColor: '#171717',
       shadowOffset: {width: 0, height: 10},
       shadowOpacity: 0.4,

@@ -1,24 +1,17 @@
 import React, { useState } from 'react'
 import { Formik } from 'formik';
-
-import {StyleSheet , Text, View, Image, TextInput, Dimensions } from 'react-native';
+import {StyleSheet, View, Dimensions } from 'react-native';
 import UILogo from '../../components/UILogo';
 import { Link, useNavigation } from '@react-navigation/native';
-import { useTogglePasswordVisibility } from './component/useTogglePasswordVisibility';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { Box, Checkbox, Pressable, useToast } from 'native-base';
 import { initialValues, SignupSchema } from './validation';
-import { signInWithPassword } from '../../service/User';
 import { useAuth } from '../../context';
-import { ISingIn, ISingInRemember, ISingInResponse } from '../../service/User/type';
-import { AlertStatus } from '../../components/AlertStatus';
-import { useMutation } from '@tanstack/react-query';
+import { ISingInRemember } from '../../service/User/type';
 import CustomInput from '../../components/input/Input';
 import { LinearGradient } from 'expo-linear-gradient';
 import { UIHeading } from '../../components/UIText';
 import TranslateX from '../../components/animations/TranslateX';
 import UIButton from '../../components/UIButton';
-import { GetValueForStorage, SaveStorage } from '../../service/storage/storage';
+import { useToast } from 'native-base';
 
 const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
@@ -57,7 +50,7 @@ export default function Login() {
             <UILogo style={{marginTop: 60, marginBottom: 60}}/>
               <TranslateX from={200} to={0}>
                 <UIHeading size="xSmall" color="violet">Entrar na plataforma</UIHeading>
-                <CustomInput 
+                <CustomInput
                   placeholder='E-mail' icon="email"
                   onChangeText={handleChange('email')}
                   onBlur={handleBlur('email')}
@@ -69,9 +62,6 @@ export default function Login() {
                   onBlur={handleBlur('password')}
                   value={values.password}
                 />
-                <View style={{marginTop: 5}}>
-                  <Checkbox _text={{color: "#8834F5"}} value='' colorScheme="gray" onChange={()=> setIsRemember(!isRemember)}>Lembrar-me</Checkbox>
-                </View>
                 <UIButton onPress={handleSubmit} title="Entrar"/>
                 <Link to={{ screen: 'PasswordFlow' }} style={{color: "#545454" , marginTop: 5, textAlign: "center"}}>Esqueceu sua senha?</Link>
               </TranslateX>

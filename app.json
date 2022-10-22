@@ -1,11 +1,13 @@
 {
   "expo": {
+    
     "name": "clinic-app",
     "slug": "clinic-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "automatic",
+    "scheme": "com.tasaboia.clinicapp",
     "splash": {
       "image": "./assets/images/splash.png",
       "resizeMode": "contain",

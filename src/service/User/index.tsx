@@ -7,10 +7,9 @@ export async function signInWithPassword (data: ISingIn): Promise<ISingInRespons
     return response
   }
 
-export async function singUp(data: ISingUp){
-  const response:ISingInResponse = await httpAuth.post(`accounts:signUp?key=${Key}`, data);
-  console.log("resposta: ",response)
-  return response.data
+export async function singUp(data: ISingUp): Promise<ISingInResponse>{
+  const response = await httpAuth.post(`accounts:signUp?key=${Key}`, data);
+  return response
 }
 
 export async function RegisterUser(data: IRegister): Promise<IRegisterResponse | null>{
@@ -18,7 +17,7 @@ export async function RegisterUser(data: IRegister): Promise<IRegisterResponse |
   return response.data
 }
   
-interface resetPassword {
+interface IAuthFlow {
   requestType?: string,
   email: string,
 }
@@ -26,7 +25,18 @@ interface IResetPasswordResponse {
   email: string,
   kind: string,
 }
-export async function sendEmailCode ({email, requestType="PASSWORD_RESET"}: resetPassword): Promise<IResetPasswordResponse>{
+export async function sendEmailCode ({email, requestType="PASSWORD_RESET"}: IAuthFlow): Promise<IResetPasswordResponse>{
   const response = await httpAuth.post(`accounts:sendOobCode?key=${Key}`,{email, requestType})
+  return response.data
+}
+
+interface IEmailVerify {
+  requestType?: string,
+  idToken: string,
+}
+
+export async function emailConfirmation (data: IEmailVerify){
+  console.log(" email verification: ", data)
+  const response = await httpAuth.post(`accounts:sendOobCode?key=${Key}`, data)
   return response.data
 }

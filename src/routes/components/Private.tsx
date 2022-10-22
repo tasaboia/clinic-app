@@ -31,7 +31,7 @@ export default function Private() {
 function CustomDrawerContent(props: any) {
   const { logout, user } = useAuth()
   return (
-    <DrawerContentScrollView>
+    <DrawerContentScrollView >
       <DrawerItemList {...props} />
       <View style={{justifyContent: "center", alignItems: "center", margin: 20}}>
         <Avatar size={20}/>

@@ -14,9 +14,9 @@ import { useAuth } from '../../context';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import { useMutation } from '@tanstack/react-query';
-import { IRegister, ISingUp } from '../../service/User/type';
+import { IRegister, ISingInResponse, ISingUp } from '../../service/User/type';
 import UIButton from '../../components/UIButton';
-import { RegisterUser, singUp } from '../../service/User';
+import { emailConfirmation, RegisterUser, singUp } from '../../service/User';
 
 const SCREEN_height = Dimensions.get('window').height
 const SCREEN_width = Dimensions.get('window').width
@@ -46,9 +46,12 @@ export default function Register () {
       initialValues={initialValues}
       validationSchema={SignUpSchema}
       onSubmit={async values => {
-          const response = await singUp({email: values.email,
-          password: values.password,
-          returnSecureToken: true,}).then(() =>{
+          const response = await singUp({email: values.email, password: values.password, returnSecureToken: true})
+          .then(async (data) =>{
+            console.log("data: ",data.data.idToken)
+            if(data.data.idToken){
+              const verify = await emailConfirmation({requestType: "VERIFY_EMAIL", idToken: data.data.idToken})
+            }
             toast.show({
               placement: "top",
               render: () => {
@@ -65,6 +68,7 @@ export default function Register () {
                         </Box>;
               }})
         })
+
         navigate.navigate("Login")
     }}>
       {({ handleChange, handleBlur, handleSubmit, errors, values }) => (
