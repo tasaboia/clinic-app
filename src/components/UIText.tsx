@@ -23,7 +23,7 @@ export const UIHeading = styled('Text', {
         black: {color: "#000"},
         white: {color: "#fff"},
         sucess: {color: "#93C972"},
-        violet: {color: "#8834F5"},
+        violet: {color: "#534AC8"},
         "gray/800": {color: "#545454"},
         "gray/900": {color: "#454545"},
         "gray/50": {color: "#EFEFEF"},
@@ -34,6 +34,9 @@ export const UIHeading = styled('Text', {
       },
       position: {
         center: { alignSelf: "center"}
+      },
+      Weight:{
+        light: { fontWeight: '400'}
       }
     }
   });

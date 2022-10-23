@@ -1,6 +1,6 @@
 import React , {SetStateAction, useRef} from 'react'
 import { Button, Center, AlertDialog } from "native-base";
-import Loading from './Loadding';
+import Loading from './Loading';
 
 interface IProp {
   isOpen: boolean,

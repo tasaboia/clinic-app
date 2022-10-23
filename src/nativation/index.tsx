@@ -1,7 +1,6 @@
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import React, {useState} from 'react'
 import {StyleSheet, View, Image, TouchableOpacity} from 'react-native';
-import UserDashboard from '../pages/add/user';
 import Tests from '../pages/tests';
 import { Entypo, Ionicons, FontAwesome } from '@expo/vector-icons';
 import { Avatar, FormControl, Input, Modal, Button, PresenceTransition } from 'native-base';
@@ -10,6 +9,7 @@ import { Calendar, Chats, List, Notepad, Plus } from 'phosphor-react-native';
 import Historic from '../pages/historic';
 import Diary from '../pages/diary';
 import CustomInput from '../components/input/Input';
+import UserDashboard from '../pages/dashboard/user';
 
 const CustomTabBarButton = ({children,  onPress}: any) => (
     <TouchableOpacity
@@ -114,7 +114,8 @@ export default function Tabs({ navigation }) {
                     ),
                     tabBarButton: (props) => (
                         <CustomTabBarButton {...props}/>
-                    )
+                    ),
+                    title: "Solicitação de consulta",
                 }}
             />
             <Tab.Screen name="Historic" component={Historic}

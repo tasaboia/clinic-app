@@ -1,6 +1,7 @@
 import { NavigationContainer } from '@react-navigation/native';
 import React from 'react'
 import { useAuth } from '../context';
+import { ProProvider } from '../context/Professional';
 import Private from './components/Private';
 import Public from './components/Public';
 

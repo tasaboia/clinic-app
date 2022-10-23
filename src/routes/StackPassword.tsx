@@ -1,8 +1,8 @@
 import React from 'react'
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import CodePassword from "./CodePassword";
-import NewPassword from "./NewPassword";
-import RecoveryPassword from "./RecoveryPassword";
+import CodePassword from "../pages/login/recoveryPassword/CodePassword";
+import NewPassword from "../pages/login/recoveryPassword/NewPassword";
+import RecoveryPassword from "../pages/login/recoveryPassword/RecoveryPassword";
 
 const Stack = createNativeStackNavigator();
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, TouchableHighlight } from 'react-native';
 import { Pressable, Text} from 'native-base'
-import Loading from './Loadding';
+import Loading from './Loading';
 
 
 export interface IButtonProps {
@@ -20,7 +20,7 @@ export default function UIButton({title, onPress, loading = false, error = false
       width: 200,
       borderRadius: 10,
       elevation: 3,
-      backgroundColor: '#8834F5',
+      backgroundColor: '#534AC8',
       marginTop: 20,
       alignSelf: "center",
       shadowColor: '#171717',

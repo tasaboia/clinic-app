@@ -1,5 +1,12 @@
 
-
+export interface IPro {
+  id: number,
+  name: string,
+  avatar: string
+  focus: string,
+  bio: string,
+  unallowed?: string,
+}
 
 export interface IQuestionItem {
     id: string,

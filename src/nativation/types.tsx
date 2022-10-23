@@ -14,6 +14,11 @@ export type RootStackParamList = {
     RecoveryPassword: undefined;
     NewPassword: undefined;
     CodePassword: undefined;
+    Diary: undefined,
+    Historic: undefined,
+    Tests: undefined,
+    Psychologists: undefined,
+    Wallet: undefined,
   };
 
 

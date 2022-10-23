@@ -8,23 +8,43 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { View , Dimensions, Text} from 'react-native' 
 import { Avatar } from 'native-base';
 import { Feather } from '@expo/vector-icons';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import Psychologists from '../../pages/psychologists';
+import { Wallet } from 'phosphor-react-native';
+import Historic from '../../pages/historic';
+import { ProProvider, useProData } from '../../context/Professional';
+import Loading from '../../components/Loading';
 const SCREEN_height = Dimensions.get('window').height
+
+const Stack = createNativeStackNavigator();
 const Drawer = createDrawerNavigator();
 
 export default function Private() {
  return (
-    <Drawer.Navigator 
-      screenOptions={{headerShown:false}}
-      drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      <Drawer.Screen 
-        options={{
-          headerTransparent: true,
-          title: "",
-          drawerIcon: () => {return <Feather name="arrow-right-circle" size={24} color="black" />}
-        }}
-        name="Tabs" component={Tabs} />
-    </Drawer.Navigator>
+  <ProProvider>
+    <Stack.Navigator >
+      <Stack.Screen name="UserDrawer" options={{headerShown: false}} component={UserDrawer} />
+      <Stack.Screen name="Psychologists" options={{ title: 'Psicologos' }} component={Psychologists} />
+      <Stack.Screen name="Wallet" options={{ title: 'Minha Carteira' }} component={Wallet} />
+      <Stack.Screen name="Historic" options={{ title: 'Histórico de consultas'}} component={Historic} />
+    </Stack.Navigator> 
+  </ProProvider>
  )
+}
+
+function UserDrawer (){
+  return (
+  <Drawer.Navigator 
+    screenOptions={{headerShown:false}}
+    drawerContent={(props) => <CustomDrawerContent {...props} />}>
+    <Drawer.Screen 
+      options={{
+        headerTransparent: true,
+        title: "",
+        drawerIcon: () => {return <Feather name="arrow-right-circle" size={24} color="black" />}
+      }}
+      name="Tabs" component={Tabs} />
+  </Drawer.Navigator>)
 }
 
 

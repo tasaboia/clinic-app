@@ -47,10 +47,25 @@ export default function UICalendar() {
       LocaleConfig.defaultLocale = 'pt-br';
 
   return (
-    <View style={{height: 120}}>
-      <CalendarProvider date={''} >
-        <WeekCalendar firstDay={1} />
-      </CalendarProvider>
+    <View style={{height: "100%"}}>
+      <Agenda
+        pastScrollRange={0}
+        futureScrollRange={0}
+        markingType={'custom'}
+          markedDates={{
+          '2022-10-16': {
+            customStyles: {
+              container: {
+                backgroundColor: '#7254EF'
+              },
+              text: {
+                color: 'white',
+                fontWeight: 'bold'
+              }
+            }
+          },
+        }}
+      />
     </View>
   )
 }

@@ -4,7 +4,7 @@ import Login from '../../pages/login';
 import GettingStart from '../../pages/homeform';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Register from '../../pages/register';
-import PasswordFlow from '../../pages/login/recoveryPassword/StackPassword';
+import PasswordFlow from '../StackPassword';
 
 const Stack = createNativeStackNavigator();
 export default function Public() {

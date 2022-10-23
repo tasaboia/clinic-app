@@ -7,7 +7,7 @@ import PrevNextButton from './components/PrevNextButton';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import React from 'react';
 import { getAllQuestions } from '../../service/data';
-import Loading from '../../components/Loadding';
+import Loading from '../../components/Loading';
 import { CustomAlertDialog } from '../../components/CustomAlertDialog';
 import { Register } from '../../service/User';
 import { ICurrentAnswer, IHandle } from './types';

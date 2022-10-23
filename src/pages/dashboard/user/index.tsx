@@ -54,6 +54,10 @@ export default function UserDashboard() {
         horizontal={true}
         scrollEnabled
         >
+          <TouchableOpacity  onPress={() => navigation.navigate("Psychologists")} style={styles.card}>
+            <IdentificationBadge size={30} color="white"/>
+            <UIHeading color="white">Psicologos</UIHeading>
+          </TouchableOpacity>
           <TouchableOpacity style={styles.card}>
             <Wallet size={30} color="white"/>
             <UIHeading color="white">Carteira</UIHeading>
@@ -61,9 +65,6 @@ export default function UserDashboard() {
           <TouchableOpacity style={styles.card}>
             <ClockClockwise size={30} color="white"/>
             <UIHeading color="white">Histórico</UIHeading>
-          </TouchableOpacity><TouchableOpacity style={styles.card}>
-            <IdentificationBadge size={30} color="white"/>
-            <UIHeading color="white">Psicologos</UIHeading>
           </TouchableOpacity>
       </ScrollView>
     </View>
@@ -100,7 +101,8 @@ const styles = StyleSheet.create ({
     elevation: 6,
   },
   feelings: {
-    paddingVertical: 20,
+    marginTop: 50,
+    marginBottom: 20,
   },
   feelingsItem: {
     height: 60,

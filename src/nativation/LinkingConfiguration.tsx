@@ -14,6 +14,11 @@ import { RootStackParamList } from './types';
         RecoveryPassword: "Recovery",
         CodePassword: "Code",
         NewPassword: "New",
+        Diary: "Dairy",
+        Historic: "Historic",
+        Tests: "Tests",
+        Psychologists: "Psychologists",
+        Wallet: "Wallet",
         Tabs: {
          screens: {
            Home: {
